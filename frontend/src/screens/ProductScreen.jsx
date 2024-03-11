@@ -1,13 +1,23 @@
+import { useEffect,useState } from "react";
 import {useParams} from "react-router-dom";
-import products from "../products";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import {Row , Col,Image, ListGroup,Card ,Button, ListGroupItem} from "react-bootstrap";
 import Rating from "../Components/Rating";
 
 const ProductScreen = () => {
+  const [product,setProduct]=useState([]);
+
     const { id : productId}= useParams();
-    const product =  products.find((p)=>p._id === productId);
-    console.log(product);
+    console.log(productId);
+useEffect(()=>{
+  const fetchProduct=async ()=>{
+    const {data}=await axios.get(`/api/products/${productId}`);
+    console.log(data);
+    setProduct(data);
+  };
+  fetchProduct();
+},[productId])
   return (
     <>
     <Link className="btn btn-light my-3" to="/">Go Back</Link>
@@ -24,9 +34,40 @@ const ProductScreen = () => {
             <Rating value={product.rating}  text={`${product.numReviews} reviews`}/>
           </ListGroupItem>
           <ListGroupItem >Price: ${product.price}</ListGroupItem>
+          <ListGroupItem >Description: ${product.description}</ListGroupItem>
         </ListGroup>
       </Col>
-      <Col md={3}></Col>
+      <Col md={3}>
+        <Card>
+          <ListGroup variant="flush">
+          <ListGroup.Item>
+            <Row>
+              <Col>
+              Price:
+              </Col>
+              <Col>
+              <strong>${product.price}</strong>
+              </Col>
+            </Row>
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <Row>
+              <Col>
+              Status:
+              </Col>
+              <Col>
+              <strong>{product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</strong>
+              </Col>
+            </Row>
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <Button className="btn-black" type="button" disabled={product.countInStock===0}>
+              Add to Cart
+            </Button>
+          </ListGroup.Item>
+          </ListGroup>
+        </Card>
+      </Col>
     </Row>
     </>
   )
