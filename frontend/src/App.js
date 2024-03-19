@@ -1,21 +1,15 @@
-import { Container } from "react-bootstrap";
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import { Outlet } from "react-router-dom";
-
+import React from 'react'
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { appRoutes } from './routes';
 
 function App() {
-  return (
-    <>
-    <Header />
-    <main className="py-3">
-      <Container>
-        <Outlet/>
-    </Container>
-    </main>
-    <Footer />
-      </>
-  );
+    const router = createBrowserRouter(appRoutes());
+
+    return (
+        <React.StrictMode>
+            <RouterProvider router={router} />
+        </React.StrictMode>
+    );
 };
 
 export default App
