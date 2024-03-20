@@ -22,76 +22,104 @@ const routeMapper = () => {
     const isLoggedIn = checkLoginStatus();
 
     return [
-        {
-            path: '/signin',
-            element: (
-                <PublicRoute isLoggedIn={isLoggedIn}>
-                    <Suspense fallback={<Loader />}>
-                        <Signin />
-                    </Suspense>
-                </PublicRoute>
-            ),
-            exact: true,
-        },
-        {
-            path: '/signup',
-            element: (
-                <PublicRoute isLoggedIn={isLoggedIn}>
-                    <Suspense fallback={<Loader />}>
-                        <Signup />
-                    </Suspense>
-                </PublicRoute>
-            ),
-            exact: true,
-        },
+        // {
+        //     path: '/signin',
+        //     element: (
+        //         <PublicRoute isLoggedIn={isLoggedIn}>
+        //             <Suspense fallback={<Loader />}>
+        //                 <Signin />
+        //             </Suspense>
+        //         </PublicRoute>
+        //     ),
+        //     exact: true,
+        // },
+        // {
+        //     path: '/signup',
+        //     element: (
+        //         <PublicRoute isLoggedIn={isLoggedIn}>
+        //             <Suspense fallback={<Loader />}>
+        //                 <Signup />
+        //             </Suspense>
+        //         </PublicRoute>
+        //     ),
+        //     exact: true,
+        // },
+        // {
+        //     path: '/',
+        //     element: (
+        //         <PrivateRoute isLoggedIn={isLoggedIn}>
+        //             <Suspense fallback={<Loader />}>
+        //                 <Outlet />
+        //             </Suspense>
+        //         </PrivateRoute>
+        //     ),
+        //     children: [
+        //         {
+        //             index: true,
+        //             exact: true,
+        //             element: (
+        //                 <Suspense fallback={<Loader />}>
+        //                     <Product />
+        //                 </Suspense>
+        //             ),
+        //         },
+        //         {
+        //             path: '/product/:id',
+        //             exact: true,
+        //             element: (
+        //                 <Suspense fallback={<Loader />}>
+        //                     <ProductDetails />
+        //                 </Suspense>
+        //             ),
+        //         },
+
+        //     ],
+        // },
+        // {
+        //     path: '/profile',
+        //     element: (
+        //         <PrivateRoute isLoggedIn={isLoggedIn}>
+        //             <Outlet />
+        //         </PrivateRoute>
+        //     ),
+        //     exact: true,
+        // },
+        // {
+        //     path: '*',
+        //     element: (
+        //         <PublicRoute isLoggedIn={isLoggedIn}>
+        //             <Suspense fallback={<Loader />}>
+        //                 <NotFound />
+        //             </Suspense>
+        //         </PublicRoute>
+        //     ),
+        // },
         {
             path: '/',
             element: (
-                <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <Suspense fallback={<Loader />}>
-                        <Outlet />
-                    </Suspense>
-                </PrivateRoute>
-            ),
-            children: [
-                {
-                    index: true,
-                    exact: true,
-                    element: (
-                        <Suspense fallback={<Loader />}>
-                            <Product />
-                        </Suspense>
-                    ),
-                },
-                {
-                    path: '/product/:id',
-                    exact: true,
-                    element: (
-                        <Suspense fallback={<Loader />}>
-                            <ProductDetails />
-                        </Suspense>
-                    ),
-                },
-
-            ],
-        },
-        {
-            path: '/profile',
-            element: (
-                <PrivateRoute isLoggedIn={isLoggedIn}>
-                    <Outlet />
-                </PrivateRoute>
+                <Suspense fallback={<Loader />}>
+                    <Product />
+                </Suspense>
             ),
             exact: true,
         },
         {
+            path: '/product/:id',
+            element: (
+                <Suspense fallback={<Loader />}>
+                    <ProductDetails />
+                </Suspense>
+            ),
+            exact: true,
+        },
+        // Add other routes as needed...
+        // Remember to include the NotFound route at the end.
+        {
             path: '*',
             element: (
-                <PublicRoute isLoggedIn={isLoggedIn}>
-                    <Suspense fallback={<Loader />}>
-                        <NotFound />
-                    </Suspense>
-                </PublicRoute>
+                <Suspense fallback={<Loader />}>
+                    <NotFound />
+                </Suspense>
             ),
         },
     ];
