@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { UseDispatch, useDispatch, useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import Loader from '../shared/Loader';
 import { useLoginMutation } from '../../redux/slices/usersApiSlice';
 import { setCredentials } from '../../redux/slices/authSlice';
@@ -22,13 +22,16 @@ const LoginForm = () => {
 
     const { search } = useLocation();
     const sp = new URLSearchParams(search)
+    console.log(sp);
     const redirect = sp.get('redirect') || '/';
+    console.log(redirect);
 
-    useEffect(()=>{
-        if(userInfo){
-            navigate(redirect);
-        }
-    })
+    // useEffect(()=>{
+    //     if(userInfo){
+    //         console.log("locllll");
+    //         navigate(redirect);
+    //     }
+    // },[])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -48,6 +51,7 @@ const LoginForm = () => {
 
         } catch (err) {
             <Alerts variant='danger'>{err?.data?.message || err.error} </Alerts>
+            console.log("invalid");
         }
     };
 
