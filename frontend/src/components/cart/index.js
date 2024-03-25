@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa';
 import Alerts from '../shared/Alerts';
-import { addToCart, removeFromCart } from '../slices/cartSlice';
+import { addToCart, removeFromCart } from '../../redux/slices/cartSlice';
 
 
 const CartScreen = () => {

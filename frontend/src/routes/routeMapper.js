@@ -2,6 +2,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
+import Header from '../components/shared/Header';
+
 import Loader from '../components/shared/Loader';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
@@ -12,14 +14,21 @@ const Signup = lazy(() => import('../components/auth/Signup'));
 const Product = lazy(() => import('../components/Product/index'));
 const ProductDetails = lazy(() => import('../components/Product/ProductDetails'));
 const NotFound = lazy(() => import('../components/shared/NotFound'));
+const Cart = lazy(() =>import('../components/cart/index'));
+const Footer = lazy(() =>import('../components/shared/Footer'));
+
+
 
 const checkLoginStatus = () => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem('userInfo')
+    console.log(token);
     return !!token
+
 }
 
 const routeMapper = () => {
     const isLoggedIn = checkLoginStatus();
+    console.log(isLoggedIn);
 
     return [
         {
@@ -50,6 +59,7 @@ const routeMapper = () => {
                 <PrivateRoute isLoggedIn={isLoggedIn}>
                     <Suspense fallback={<Loader />}>
                         <Outlet />
+                        <Footer />
                     </Suspense>
                 </PrivateRoute>
             ),
@@ -69,6 +79,16 @@ const routeMapper = () => {
                     element: (
                         <Suspense fallback={<Loader />}>
                             <ProductDetails />
+                        </Suspense>
+                    ),
+                },
+                {
+                    path: '/cart',
+                    exact: true,
+                    element: (
+                        <Suspense fallback={<Loader />}>
+                           
+                            <Cart />
                         </Suspense>
                     ),
                 },

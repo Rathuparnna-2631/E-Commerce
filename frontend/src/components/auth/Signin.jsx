@@ -31,7 +31,7 @@ const LoginForm = () => {
     //         console.log("locllll");
     //         navigate(redirect);
     //     }
-    // },[])
+    // },[userInfo])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,7 +50,7 @@ const LoginForm = () => {
             navigate(redirect)
 
         } catch (err) {
-            <Alerts variant='danger'>{err?.data?.message || err.error} </Alerts>
+            // <Alerts variant='danger'>{err?.data?.message || err.error} </Alerts>
             console.log("invalid");
         }
     };
