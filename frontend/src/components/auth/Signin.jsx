@@ -1,4 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {  useDispatch, useSelector } from 'react-redux';
+import Loader from '../shared/Loader';
+import { useLoginMutation } from '../../redux/slices/usersApiSlice';
+import { setCredentials } from '../../redux/slices/authSlice';
+import { Toast } from 'react-bootstrap';
+import { Await, useLocation, useNavigate } from 'react-router-dom';
+import Alerts from '../shared/Alerts';
 
 const LoginForm = () => {
     const [userData, setUserData] = useState({
@@ -6,14 +13,46 @@ const LoginForm = () => {
         password: '',
     });
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [login, { isLoading }] = useLoginMutation();
+
+    const { userInfo } = useSelector((state) => state.auth);
+
+    const { search } = useLocation();
+    const sp = new URLSearchParams(search)
+    console.log(sp);
+    const redirect = sp.get('redirect') || '/';
+    console.log(redirect);
+
+    // useEffect(()=>{
+    //     if(userInfo){
+    //         console.log("locllll");
+    //         navigate(redirect);
+    //     }
+    // },[userInfo])
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUserData({ ...userData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(userData);
+        try {
+            const { email, password } = userData; 
+            const res = await login({ email, password }).unwrap();
+            console.log(res);
+            dispatch(setCredentials({...res, }));
+            
+            navigate(redirect)
+
+        } catch (err) {
+            // <Alerts variant='danger'>{err?.data?.message || err.error} </Alerts>
+            console.log("invalid");
+        }
     };
 
     return (
@@ -29,7 +68,8 @@ const LoginForm = () => {
                         <label className="form-label">Password:</label>
                         <input type="password" name="password" value={userData.password} onChange={handleChange} className="form-control" />
                     </div>
-                    <button type="submit" className="btn btn-primary btn-block">Login</button>
+                    <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>Login</button>
+                    {isLoading && <Loader/>}
                 </form>
                 <hr />
                 <p className="text-center">
